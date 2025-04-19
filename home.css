@@ -1,0 +1,222 @@
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FF6F00 0%, #FF3D00 50%, #FF8F00 100%);
+      background-size: 200% 200%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+      width: 100vw;
+      color: #fff;
+      animation: gradientBG 15s ease infinite;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+      animation: floatIn 1s ease-out forwards;
+      font-weight: 700;
+      position: relative;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: #fff;
+      border-radius: 2px;
+      animation: expandLine 1.5s ease-out forwards;
+    }
+
+    .start-button {
+      padding: 16px 32px;
+      background-color: #66bb6a;
+      color: white;
+      border: none;
+      width: 250px;
+      border-radius: 5px;
+      font-size: 25px;
+      cursor: pointer;
+      margin: 30px 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      font-weight: 600;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .start-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+      z-index: -1;
+    }
+
+    .start-button:hover {
+      background-color: #57a358;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    }
+
+    .start-button:hover::before {
+      left: 100%;
+    }
+
+.instruction-box {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  max-width: 90%;
+  width: 300px;
+  height: 300px;
+  
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+.card {
+  width: 280px;
+  min-height: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+.instruction-card {
+  background: linear-gradient(145deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #1b5e20;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+  max-width: 250px; 
+  height: 220px;
+}
+
+.instruction-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+  transform: scale(0);
+  transition: transform 0.5s;
+}
+
+.instruction-card:hover::before {
+  transform: scale(1);
+}
+
+.instruction-card:hover {
+  transform: translateY(-5px);
+}
+
+
+    @keyframes floatIn {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes expandLine {
+      from {
+        width: 0;
+      opacity: 0;
+      transform: translateX(-50%) scaleX(0);
+      }
+      to {
+        width: 100px;
+        opacity: 1;
+        transform: translateX(-50%) scaleX(1);
+      }
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Decorative elements */
+    .flower {
+      position: absolute;
+      opacity: 0.6;
+      z-index: -1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .start-button {
+        font-size: 1.2rem;
+        padding: 14px 28px;
+      }
+
+      .instruction-box {
+        width: 320px;
+        height: 300px;
+      }
+
+      .instruction-card {
+        font-size: 1rem;
+        padding: 20px;
+      }
+    }
