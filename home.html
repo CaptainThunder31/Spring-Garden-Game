@@ -1,292 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Garden Maker Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spring Garden Game</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" type="text/css" media="all" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #FF6F00 0%, #FF3D00 50%, #FF8F00 100%);
-      background-size: 200% 200%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      min-height: 100vh;
-      width: 100vw;
-      color: #fff;
-      animation: gradientBG 15s ease infinite;
-      overflow-x: hidden;
-    }
-
-    h1 {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-      animation: floatIn 1s ease-out forwards;
-      font-weight: 700;
-      position: relative;
-    }
-
-    h1::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: #fff;
-      border-radius: 2px;
-      animation: expandLine 1.5s ease-out forwards;
-    }
-
-    .start-button {
-      padding: 16px 32px;
-      background-color: #66bb6a;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin: 30px 0;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      transition: all 0.3s;
-      font-weight: 600;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .start-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
-      z-index: -1;
-    }
-
-    .start-button:hover {
-      background-color: #57a358;
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-    }
-
-    .start-button:hover::before {
-      left: 100%;
-    }
-
-    .instruction-box {
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      max-width: 90%;
-      width: 400px;
-      height: 350px;
-      scroll-snap-type: y mandatory;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .instruction-card {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      background: linear-gradient(145deg, #e8f5e9 0%, #c8e6c9 100%);
-      color: #1b5e20;
-      padding: 25px;
-      border-radius: 15px;
-      min-width: 100%;
-      width: 100%;
-      height: 100%;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      font-weight: 600;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .instruction-card::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
-      transform: scale(0);
-      transition: transform 0.5s;
-    }
-
-    .instruction-card:hover::before {
-      transform: scale(1);
-    }
-
-    .instruction-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .instruction-box::-webkit-scrollbar {
-      width: 10px;
-      height: 20px;
-    }
-
-    .instruction-box::-webkit-scrollbar-track {
-      background: rgba(200, 230, 201, 0.3);
-      border-radius: 10px;
-    }
-
-    .instruction-box::-webkit-scrollbar-thumb {
-      background: linear-gradient(#81c784, #4caf50);
-      border-radius: 10px;
-      border: 2px solid rgba(255,255,255,0.5);
-    }
-
-    @keyframes floatIn {
-      from {
-        transform: translateY(-30px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes expandLine {
-      from {
-        width: 0;
-      opacity: 0;
-      transform: translateX(-50%) scaleX(0);
-      }
-      to {
-        width: 100px;
-        opacity: 1;
-        transform: translateX(-50%) scaleX(1);
-      }
-    }
-
-    @keyframes gradientBG {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    /* Decorative elements */
-    .flower {
-      position: absolute;
-      opacity: 0.6;
-      z-index: -1;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-20px) rotate(5deg);
-      }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-
-      .start-button {
-        font-size: 1.2rem;
-        padding: 14px 28px;
-      }
-
-      .instruction-box {
-        width: 320px;
-        height: 300px;
-      }
-
-      .instruction-card {
-        font-size: 1rem;
-        padding: 20px;
-      }
-    }
+  
   </style>
 </head>
-<body>
 
+<body>
+  
   <!-- Decorative flowers -->
   <div class="flower" style="top: 10%; left: 10%; transform: rotate(15deg);">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="#FFEB3B"/>
-      <path d="M12 5C12.5523 5 13 4.55228 13 4C13 3.44772 12.5523 3 12 3C11.4477 3 11 3.44772 11 4C11 4.55228 11.4477 5 12 5Z" fill="#FFEB3B"/>
-      <path d="M12 21C12.5523 21 13 20.5523 13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20C11 20.5523 11.4477 21 12 21Z" fill="#FFEB3B"/>
-      <path d="M5 12C5 12.5523 4.55228 13 4 13C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11C4.55228 11 5 11.4477 5 12Z" fill="#FFEB3B"/>
-      <path d="M21 12C21 12.5523 20.5523 13 20 13C19.4477 13 19 12.5523 19 12C19 11.4477 19.4477 11 20 11C20.5523 11 21 11.4477 21 12Z" fill="#FFEB3B"/>
-      <path d="M7.05025 7.05025C7.44077 6.65973 8.07394 6.65973 8.46446 7.05025C8.85499 7.44077 8.85499 8.07394 8.46446 8.46446C8.07394 8.85499 7.44077 8.85499 7.05025 8.46446C6.65973 8.07394 6.65973 7.44077 7.05025 7.05025Z" fill="#FFEB3B"/>
-      <path d="M16.9497 16.9497C17.3403 16.5592 17.9734 16.5592 18.364 16.9497C18.7545 17.3403 18.7545 17.9734 18.364 18.364C17.9734 18.7545 17.3403 18.7545 16.9497 18.364C16.5592 17.9734 16.5592 17.3403 16.9497 16.9497Z" fill="#FFEB3B"/>
-      <path d="M7.05025 16.9497C7.44077 16.5592 8.07394 16.5592 8.46446 16.9497C8.85499 17.3403 8.85499 17.9734 8.46446 18.364C8.07394 18.7545 7.44077 18.7545 7.05025 18.364C6.65973 17.9734 6.65973 17.3403 7.05025 16.9497Z" fill="#FFEB3B"/>
-      <path d="M16.9497 7.05025C17.3403 6.65973 17.9734 6.65973 18.364 7.05025C18.7545 7.44077 18.7545 8.07394 18.364 8.46446C17.9734 8.85499 17.3403 8.85499 16.9497 8.46446C16.5592 8.07394 16.5592 7.44077 16.9497 7.05025Z" fill="#FFEB3B"/>
+      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="#FFEB3B" />
+      <path d="M12 5C12.5523 5 13 4.55228 13 4C13 3.44772 12.5523 3 12 3C11.4477 3 11 3.44772 11 4C11 4.55228 11.4477 5 12 5Z" fill="#FFEB3B" />
+      <path d="M12 21C12.5523 21 13 20.5523 13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20C11 20.5523 11.4477 21 12 21Z" fill="#FFEB3B" />
+      <path d="M5 12C5 12.5523 4.55228 13 4 13C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11C4.55228 11 5 11.4477 5 12Z" fill="#FFEB3B" />
+      <path d="M21 12C21 12.5523 20.5523 13 20 13C19.4477 13 19 12.5523 19 12C19 11.4477 19.4477 11 20 11C20.5523 11 21 11.4477 21 12Z" fill="#FFEB3B" />
+      <path d="M7.05025 7.05025C7.44077 6.65973 8.07394 6.65973 8.46446 7.05025C8.85499 7.44077 8.85499 8.07394 8.46446 8.46446C8.07394 8.85499 7.44077 8.85499 7.05025 8.46446C6.65973 8.07394 6.65973 7.44077 7.05025 7.05025Z" fill="#FFEB3B" />
+      <path d="M16.9497 16.9497C17.3403 16.5592 17.9734 16.5592 18.364 16.9497C18.7545 17.3403 18.7545 17.9734 18.364 18.364C17.9734 18.7545 17.3403 18.7545 16.9497 18.364C16.5592 17.9734 16.5592 17.3403 16.9497 16.9497Z" fill="#FFEB3B" />
+      <path d="M7.05025 16.9497C7.44077 16.5592 8.07394 16.5592 8.46446 16.9497C8.85499 17.3403 8.85499 17.9734 8.46446 18.364C8.07394 18.7545 7.44077 18.7545 7.05025 18.364C6.65973 17.9734 6.65973 17.3403 7.05025 16.9497Z" fill="#FFEB3B" />
+      <path d="M16.9497 7.05025C17.3403 6.65973 17.9734 6.65973 18.364 7.05025C18.7545 7.44077 18.7545 8.07394 18.364 8.46446C17.9734 8.85499 17.3403 8.85499 16.9497 8.46446C16.5592 8.07394 16.5592 7.44077 16.9497 7.05025Z" fill="#FFEB3B" />
     </svg>
   </div>
-
+  
   <div class="flower" style="top: 80%; right: 15%; transform: rotate(-10deg);">
     <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="#FFC107"/>
-      <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="#FFC107"/>
-      <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="#FFC107"/>
-      <path d="M6 12C6 12.5523 5.55228 13 5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11C5.55228 11 6 11.4477 6 12Z" fill="#FFC107"/>
-      <path d="M20 12C20 12.5523 19.5523 13 19 13C18.4477 13 18 12.5523 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12Z" fill="#FFC107"/>
-      <path d="M7.63604 7.63604C8.02657 7.24552 8.65973 7.24552 9.05025 7.63604C9.44078 8.02657 9.44078 8.65973 9.05025 9.05025C8.65973 9.44078 8.02657 9.44078 7.63604 9.05025C7.24552 8.65973 7.24552 8.02657 7.63604 7.63604Z" fill="#FFC107"/>
-      <path d="M16.364 16.364C16.7545 15.9734 17.3877 15.9734 17.7782 16.364C18.1687 16.7545 18.1687 17.3877 17.7782 17.7782C17.3877 18.1687 16.7545 18.1687 16.364 17.7782C15.9734 17.3877 15.9734 16.7545 16.364 16.364Z" fill="#FFC107"/>
-      <path d="M7.63604 16.364C8.02657 15.9734 8.65973 15.9734 9.05025 16.364C9.44078 16.7545 9.44078 17.3877 9.05025 17.7782C8.65973 18.1687 8.02657 18.1687 7.63604 17.7782C7.24552 17.3877 7.24552 16.7545 7.63604 16.364Z" fill="#FFC107"/>
-      <path d="M16.364 7.63604C16.7545 7.24552 17.3877 7.24552 17.7782 7.63604C18.1687 8.02657 18.1687 8.65973 17.7782 9.05025C17.3877 9.44078 16.7545 9.44078 16.364 9.05025C15.9734 8.65973 15.9734 8.02657 16.364 7.63604Z" fill="#FFC107"/>
+      <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="#FFC107" />
+      <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="#FFC107" />
+      <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="#FFC107" />
+      <path d="M6 12C6 12.5523 5.55228 13 5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11C5.55228 11 6 11.4477 6 12Z" fill="#FFC107" />
+      <path d="M20 12C20 12.5523 19.5523 13 19 13C18.4477 13 18 12.5523 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12Z" fill="#FFC107" />
+      <path d="M7.63604 7.63604C8.02657 7.24552 8.65973 7.24552 9.05025 7.63604C9.44078 8.02657 9.44078 8.65973 9.05025 9.05025C8.65973 9.44078 8.02657 9.44078 7.63604 9.05025C7.24552 8.65973 7.24552 8.02657 7.63604 7.63604Z" fill="#FFC107" />
+      <path d="M16.364 16.364C16.7545 15.9734 17.3877 15.9734 17.7782 16.364C18.1687 16.7545 18.1687 17.3877 17.7782 17.7782C17.3877 18.1687 16.7545 18.1687 16.364 17.7782C15.9734 17.3877 15.9734 16.7545 16.364 16.364Z" fill="#FFC107" />
+      <path d="M7.63604 16.364C8.02657 15.9734 8.65973 15.9734 9.05025 16.364C9.44078 16.7545 9.44078 17.3877 9.05025 17.7782C8.65973 18.1687 8.02657 18.1687 7.63604 17.7782C7.24552 17.3877 7.24552 16.7545 7.63604 16.364Z" fill="#FFC107" />
+      <path d="M16.364 7.63604C16.7545 7.24552 17.3877 7.24552 17.7782 7.63604C18.1687 8.02657 18.1687 8.65973 17.7782 9.05025C17.3877 9.44078 16.7545 9.44078 16.364 9.05025C15.9734 8.65973 15.9734 8.02657 16.364 7.63604Z" fill="#FFC107" />
     </svg>
   </div>
-
-  <h1>Garden Maker Game</h1>
-
+  
+  <h1>Spring Garden Game</h1>
+  
   <button class="start-button" onclick="startGame()">
     Start Growing
-    <span style="margin-left: 8px;">🌱</span>
   </button>
-
+  
   <div class="instruction-box">
-    <div class="instruction-card">🌷 Tap to plant beautiful flowers</div>
-    <div class="instruction-card">💦 Swipe to water and nurture them</div>
-    <div class="instruction-card">🐞 Protect your garden from pests!</div>
-    <div class="instruction-card">☀️ Collect sunshine for energy</div>
-    <div class="instruction-card">⚡ Manage your gardening energy</div>
-    <div class="instruction-card">🌻 Grow the most vibrant garden!</div>
+    <div class="card">
+      <div class="instruction-card">🌷 Use arrow keys or Arrow buttons to move through the garden</div>
+    </div>
+    <div class="card">
+      <div class="instruction-card">🌿 Use 'b' key or Grass button to break grasses before watering</div>
+    </div>
+    <div class="card">
+      <div class="instruction-card">💦 Use 'w' key or Water button to water garden after removing grasses</div>
+    </div>
+    <div class="card">
+      <div class="instruction-card"> 🌼 Use 'r', 't', 'v', 'd', 's' keys or Flower buttons to plant Rose, Tulip, Violet, Daisy and Sunflower flowers</div>
+    </div>
+    <div class="card">
+      <div class="instruction-card">⏳ The time is limited! So play quickly...</div>
+    </div>
+    <div class="card">
+      <div class="instruction-card">🌻 Grow the most vibrant garden!</div>
+    </div>
   </div>
-
+  
   <script>
     function startGame() {
       // Add button press animation
@@ -300,7 +83,7 @@
         }, 300);
       }, 100);
     }
-
+    
     // Add more decorative flowers dynamically
     document.addEventListener('DOMContentLoaded', () => {
       const colors = ['#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
@@ -330,6 +113,7 @@
       }
     });
   </script>
-
+  
 </body>
+
 </html>
