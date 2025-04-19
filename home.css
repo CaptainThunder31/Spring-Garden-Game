@@ -91,7 +91,7 @@
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 90%;
   width: 300px;
   height: 300px;
