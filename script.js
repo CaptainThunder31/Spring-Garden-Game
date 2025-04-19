@@ -24,6 +24,12 @@ window.onload = () => {
     sunflower: 10
   }
   
+  const FLOWER_CENTER = {
+    violet: "#fff",
+    daisy: "#0f0",
+    sunflower: "#5A3803"
+  }
+  
   // Game state
   let tiles = [];
   let selectedTile = { x: 0, y: 0 };
@@ -147,48 +153,52 @@ window.onload = () => {
     // Draw petals
     ctx.fillStyle = FLOWER_COLORS[flowerType];
     
-    if (petalCount === 1) {
-      // Special case for single-petal flowers (rose/tulip)
-      
-      centerY = y * TILE_SIZE + TILE_SIZE / 1.5;
-      const petalLength = TILE_SIZE / 1.5;
-      const petalWidth = TILE_SIZE / 2;
-      
-      // Angle pointing upward (-π/2 radians)
-      const angle = -Math.PI / 2;
-      
-      // Calculate petal points
-      const petalTipX = centerX + Math.cos(angle) * petalLength;
-      const petalTipY = centerY + Math.sin(angle) * petalLength;
-      
-      // Control points for a more natural petal shape
-      const cp1x = centerX + Math.cos(angle + Math.PI / 4) * petalWidth;
-      const cp1y = centerY + Math.sin(angle + Math.PI / 4) * petalWidth;
-      const cp2x = centerX + Math.cos(angle - Math.PI / 4) * petalWidth;
-      const cp2y = centerY + Math.sin(angle - Math.PI / 4) * petalWidth;
-      
-      // Draw the single petal
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.quadraticCurveTo(cp1x, cp1y, petalTipX, petalTipY);
-      ctx.quadraticCurveTo(cp2x, cp2y, centerX, centerY);
-      ctx.fill();
-    } else {
-      // Multi-petal flowers
+if (petalCount === 1) {
+    centerY = y * TILE_SIZE + TILE_SIZE / 1.5;
+    const dropHeight = TILE_SIZE / 1.5;
+    const dropWidth = TILE_SIZE / 2.5;
+    
+    // Top point of the drop
+    const topX = centerX;
+    const topY = centerY - dropHeight;
+    
+    // Control points for the curves
+    const cp1x = centerX - dropWidth;
+    const cp1y = centerY - dropHeight * 0.3;
+    const cp2x = centerX - dropWidth * 0.4;
+    const cp2y = centerY + dropHeight * 0.2;
+    
+    const cp3x = centerX + dropWidth * 0.4;
+    const cp3y = centerY + dropHeight * 0.2;
+    const cp4x = centerX + dropWidth;
+    const cp4y = centerY - dropHeight * 0.3;
+    
+    // Draw the water drop shape
+    ctx.beginPath();
+    ctx.moveTo(topX, topY);  // Start at top point
+    // Curve down left side
+    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, centerX, centerY);
+    // Curve up right side
+    ctx.bezierCurveTo(cp3x, cp3y, cp4x, cp4y, topX, topY);
+    ctx.fill();
+}else {
+      // Multi-petal flowers (unchanged)
       const petalLength = TILE_SIZE / 3;
       const petalWidth = TILE_SIZE / 4;
       
+      // Adjust petal roundness based on petal count (lower count = more rounded)
+      const roundnessFactor = Math.max(0.1, 1 - (petalCount / 20));
+      const angleOffset = Math.PI / (petalCount * roundnessFactor * 2);
+      
       for (let i = 0; i < petalCount; i++) {
-        // Angle offset by -90 degrees to make first petal point upward
         const angle = (i * 2 * Math.PI / petalCount) - Math.PI / 2;
         const petalTipX = centerX + Math.cos(angle) * petalLength;
         const petalTipY = centerY + Math.sin(angle) * petalLength;
         
-        // Control points for petal shape
-        const cp1x = centerX + Math.cos(angle + Math.PI / 8) * petalWidth;
-        const cp1y = centerY + Math.sin(angle + Math.PI / 8) * petalWidth;
-        const cp2x = centerX + Math.cos(angle - Math.PI / 8) * petalWidth;
-        const cp2y = centerY + Math.sin(angle - Math.PI / 8) * petalWidth;
+        const cp1x = centerX + Math.cos(angle + angleOffset) * petalWidth * (1 + roundnessFactor);
+        const cp1y = centerY + Math.sin(angle + angleOffset) * petalWidth * (1 + roundnessFactor);
+        const cp2x = centerX + Math.cos(angle - angleOffset) * petalWidth * (1 + roundnessFactor);
+        const cp2y = centerY + Math.sin(angle - angleOffset) * petalWidth * (1 + roundnessFactor);
         
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
@@ -198,17 +208,17 @@ window.onload = () => {
       }
     }
     
-    // Draw center (for all flower types)
+    // Draw center (for all flower types except single-petal)
     if (petalCount != 1) {
       ctx.beginPath();
       ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#FFD700';
+      ctx.fillStyle = FLOWER_CENTER[flowerType];
       ctx.fill();
       ctx.strokeStyle = '#8B4513';
       ctx.lineWidth = 1;
       ctx.stroke();
     }
-  }
+}
   
   //helper function to draw grass
   function drawGrass(x, y) {
